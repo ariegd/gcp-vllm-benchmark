@@ -82,7 +82,7 @@ El proyecto utiliza **vLLM** como motor de inferencia de alta eficiencia (aprove
 ## Requisitos Previos
 
 Antes de ejecutar los scripts, asegúrate de contar con:
-1. **Cuenta en Google Cloud Platform (GCP)** con un proyecto activo y cuota suficiente para GPUs `Nvidia L4` (mínimo 2 GPUs en la región `us-central1`).
+1. **Cuenta en Google Cloud Platform (GCP)** con un proyecto activo y cuota suficiente para GPUs `Nvidia L4` (mínimo 2 GPUs en la región `europe-southwest1`).
 2. **Google Cloud SDK (`gcloud`)** y **`kubectl`** instalados y autenticados.
 3. **Token de Hugging Face (`HF_TOKEN`)** con permisos de lectura para descargar el modelo `meta-llama/Meta-Llama-3-8B-Instruct`.
 4. **Python 3.10+** con `matplotlib` y `numpy` instalados en el nodo de control.
@@ -105,7 +105,7 @@ export HF_TOKEN="hf_xxxxxxxxxxxxxxxxxxxxxxxx"
 chmod +x *.sh
 ./01_prep_credentials.sh
 ```
-*Este script verifica la presencia de `gcloud` y `kubectl`, establece la región/zona objetivo (`us-central1-a`) y prepara la estructura de directorios `./results`.*
+*Este script verifica la presencia de `gcloud` y `kubectl`, establece la región/zona objetivo (`europe-southwest1-a`) y prepara la estructura de directorios `./results`.*
 
 ### Paso 2: Despliegue de Infraestructura en VM (Compute Engine)
 Despliega el entorno monolítico tradicional en Google Compute Engine:
