@@ -1,0 +1,54 @@
+# =============================================================
+# Modelo Único: Llama 3.1 8B FP8 (Chat, Código y Autocompletado)
+# =============================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm-llama-8b
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: vllm-llama-8b
+  template:
+    metadata:
+      labels:
+        app: vllm-llama-8b
+    spec:
+      containers:
+      - name: vllm-llama
+        image: vllm/vllm-openai:latest
+        args:
+        - "--model=neuralmagic/Meta-Llama-3.1-8B-Instruct-FP8"
+        - "--port=8000"
+        - "--max-model-len=8192"
+        - "--gpu-memory-utilization=0.85"
+        env:
+        - name: VLLM_USE_FLASHINFER_SAMPLER
+          value: "0"
+        - name: HF_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: hf-secret
+              key: HF_TOKEN
+        resources:
+          limits:
+            nvidia.com/gpu: "1"
+          requests:
+            nvidia.com/gpu: "1"
+        ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vllm-llama-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+  selector:
+    app: vllm-llama-8b

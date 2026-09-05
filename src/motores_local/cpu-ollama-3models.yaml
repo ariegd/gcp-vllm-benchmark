@@ -1,0 +1,148 @@
+# ==========================================
+# POD 1: Qwen2.5-Coder 3B (Autocompletado)
+# ==========================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama-qwen-3b
+  labels:
+    app: ollama-qwen-3b
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ollama-qwen-3b
+  template:
+    metadata:
+      labels:
+        app: ollama-qwen-3b
+    spec:
+      containers:
+      - name: ollama
+        image: ollama/ollama:latest
+        env:
+        - name: OLLAMA_KEEP_ALIVE
+          value: "-1"
+        command: ["/bin/sh", "-c"]
+        args: ["ollama serve & sleep 5 && ollama pull qwen2.5-coder:3b && wait"]
+        ports:
+        - containerPort: 11434
+        resources:
+          requests:
+            cpu: "2"
+            memory: "4Gi"
+          limits:
+            cpu: "3"
+            memory: "6Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-ollama-qwen-3b
+spec:
+  selector:
+    app: ollama-qwen-3b
+  ports:
+  - protocol: TCP
+    port: 11434
+    targetPort: 11434
+---
+
+# ==========================================
+# POD 2: Qwen2.5-Coder 7B (Refactorización / Agente)
+# ==========================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama-qwen-7b
+  labels:
+    app: ollama-qwen-7b
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ollama-qwen-7b
+  template:
+    metadata:
+      labels:
+        app: ollama-qwen-7b
+    spec:
+      containers:
+      - name: ollama
+        image: ollama/ollama:latest
+        env:
+        - name: OLLAMA_KEEP_ALIVE
+          value: "-1"
+        command: ["/bin/sh", "-c"]
+        args: ["ollama serve & sleep 5 && ollama pull qwen2.5-coder:7b && wait"]
+        ports:
+        - containerPort: 11434
+        resources:
+          requests:
+            cpu: "2.5"
+            memory: "8Gi"
+          limits:
+            cpu: "4"
+            memory: "10Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-ollama-qwen-7b
+spec:
+  selector:
+    app: ollama-qwen-7b
+  ports:
+  - protocol: TCP
+    port: 11434
+    targetPort: 11434
+---
+
+# ==========================================
+# POD 3: Llama 3.1 8B (Razonamiento General)
+# ==========================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama-llama-8b
+  labels:
+    app: ollama-llama-8b
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ollama-llama-8b
+  template:
+    metadata:
+      labels:
+        app: ollama-llama-8b
+    spec:
+      containers:
+      - name: ollama
+        image: ollama/ollama:latest
+        env:
+        - name: OLLAMA_KEEP_ALIVE
+          value: "-1"
+        command: ["/bin/sh", "-c"]
+        args: ["ollama serve & sleep 5 && ollama pull llama3.1:8b && wait"]
+        ports:
+        - containerPort: 11434
+        resources:
+          requests:
+            cpu: "2.5"
+            memory: "8Gi"
+          limits:
+            cpu: "4"
+            memory: "10Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-ollama-llama-8b
+spec:
+  selector:
+    app: ollama-llama-8b
+  ports:
+  - protocol: TCP
+    port: 11434
+    targetPort: 11434
