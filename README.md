@@ -64,13 +64,13 @@ El proyecto está organizado en módulos según la infraestructura de destino:
 
 Se han evaluado tres modalidades progresivas de puesta en producción:
 
-```text
-┌─────────────────────────────────────────────────────┐
-│                        MODALIDADES EVALUADAS                                                     │
-├───────────────────┬──────────── ────┬───────────────┤
-│     1. Bare-Metal                 │   2. Containerized        │     3. Kubernetes      │
-│  (Host Directo Linux)        │   (Docker Compose)   │      (GKE Cluster)      │
-└───────────────────┴────────────────┴────────────────┘
+```plaintext
++-----------------------------------------------------------------------+
+|                         MODALIDADES EVALUADAS                         |
++-----------------------+-----------------------+-----------------------+
+|     1. Bare-Metal     |   2. Containerized    |     3. Kubernetes     |
+| (Host Directo Linux)  |   (Docker Compose)    |     (GKE Cluster)     |
++-----------------------+-----------------------+-----------------------+
 ```
 
 1. **Instalación Directa (Bare-metal):** Evaluación directa sobre el SO host para medir latencias base sin capas de virtualización.
@@ -134,11 +134,11 @@ sudo HF_TOKEN="tu_token_huggingface" docker compose up -d
 ---
 ## Observabilidad y Benchmarking (GuideLLM + Prometheus + Grafana)
 El stack de observabilidad permite evaluar el rendimiento y el consumo de VRAM en tiempo real:
-```text
-┌──────────────┐  /metrics  ┌──────────────┐  PromQL     ┌─────────────┐
-│  vLLM (GCP)          │ ──────> │  Prometheus         │ ────────> │   Grafana             │
-│ (Puerto 8000)       │  (Scrape)  │ (Puerto 9090)      │  (Query)         │ (Puerto 3000)   │
-└──────────────┘             └──────────────┘                └─────────────┘
+```plaintext
++---------------+   /metrics    +---------------+    PromQL     +---------------+
+|  vLLM (GCP)   | ------------> |  Prometheus   | ------------> |    Grafana    |
+| (Puerto 8000) |   (Scrape)    | (Puerto 9090) |    (Query)    | (Puerto 3000) |
++---------------+               +---------------+               +---------------+
 ```
 
 ### Ejecución de Benchmark de Carga (GuideLLM)
